@@ -19,7 +19,7 @@ router.post("/scan", async (req, res, next) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model  = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model  = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `You are an expert at reading Indian business cards in ANY orientation (rotated, tilted, upside-down, dark background, any font).
 
