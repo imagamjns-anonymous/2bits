@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2 Bits - Premium Lead Management</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <!-- Premium Interactions Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="/aurora.js"></script>
+</head>
+<body data-theme="dark">
+  <click-spark spark-color="#fff" spark-size="10" spark-radius="15" spark-count="8" duration="400">
+    <aurora-bg color-1="#7cff67" color-2="#B497CF" color-3="#5227FF" blend="0.5" amplitude="1.0" speed="0.5"></aurora-bg>
+
+  <!-- Sidebar Toggle Button -->
+  <button id="sidebarToggle" class="sidebar-toggle" onclick="toggleSidebar()">
+    <span class="material-symbols-outlined" id="sidebarToggleIcon">menu</span>
+  </button>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-logo-wrapper">
+          <img id="brandLogo" src="/logo.jpg" alt="2 Bits Logo" />
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">2 Bits</span>
+          <span class="brand-tagline">Lead Flow CRM</span>
+        </div>
+      </div>
+      <button class="sidebar-close-btn" onclick="closeSidebar()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#overview" class="nav-item active" onclick="closeSidebar()"><span class="material-symbols-outlined">dashboard</span> <span class="nav-label">Overview</span></a>
+      <a href="#bentoSection" class="nav-item" onclick="closeSidebar()"><span class="material-symbols-outlined">auto_awesome</span> <span class="nav-label">Features</span></a>
+      <a href="#captureSection" class="nav-item" onclick="closeSidebar()"><span class="material-symbols-outlined">person_add</span> <span class="nav-label">Capture</span></a>
+      <a href="#pipelineSection" class="nav-item" onclick="closeSidebar()"><span class="material-symbols-outlined">view_kanban</span> <span class="nav-label">Lead Management</span></a>
+      <a href="#followupSection" class="nav-item" onclick="closeSidebar()"><span class="material-symbols-outlined">forum</span> <span class="nav-label">Follow-up</span></a>
+      <a href="#exportSection" class="nav-item" onclick="closeSidebar()"><span class="material-symbols-outlined">download</span> <span class="nav-label">Export</span></a>
+      <a href="#" id="aboutUsFlipBtn" class="nav-item" onclick="flipToAbout(event); closeSidebar();"><span class="material-symbols-outlined">info</span> <span class="nav-label">About Us</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button id="newLeadButton" class="btn btn-primary sidebar-new-lead">
+        <span class="material-symbols-outlined">add</span> <span class="nav-label">New Lead</span>
+      </button>
+      <button id="logoutButton" class="btn sidebar-logout" style="color:var(--hot); background: rgba(255,10,84,0.1); width: 100%; justify-content: center; border-radius: 100px; padding: 12px 20px;" onclick="logout()" title="Sign Out">
+        <span class="material-symbols-outlined">logout</span> <span class="nav-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- 3D Flip Perspective Wrapper -->
+  <div class="page-flip-perspective" id="flipPerspective">
+    <div id="pageFlipContainer" class="page-flip-container">
+
+      <!-- ═══ FRONT FACE (Main CRM App) ═══ -->
+      <div class="page-face page-face--front">
+  <div class="app-shell">
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <!-- Spacer for sidebar toggle -->
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" class="btn-icon">
+            <span id="themeToggleIcon" class="material-symbols-outlined">dark_mode</span>
+          </button>
+          <button id="refreshButton" class="btn btn-ghost">
+            <span class="material-symbols-outlined">refresh</span> Refresh
+          </button>
+          <button class="btn-icon" onclick="logout()" title="Sign Out">
+            <span class="material-symbols-outlined">logout</span>
+          </button>
+        </div>
+      </header>
+      <!-- Hidden search input (kept for JS compatibility) -->
+      <input id="searchInput" type="hidden" />
+
+      <div class="content-wrapper">
+        <section id="overview" class="section hero-section">
+          <div class="hero-content">
+            <span class="eyebrow">Welcome Back</span>
+            <h1 class="hero-title">Elevate Your Lead Pipeline</h1>
+            <p class="hero-description">The premium CRM experience designed for speed. Capture, organize, and engage your leads instantly.</p>
+            <div style="display:flex; gap:16px;">
+              <a href="#captureSection" class="btn btn-primary">Add Lead</a>
+              <a href="#pipelineSection" class="btn btn-glass">View Pipeline</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="stats-card tilt-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+              <h3 style="font-size:16px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Live Overview</h3>
+              <div id="statsGrid" class="stats-grid">
+                <!-- Stat tiles rendered by app.js -->
+              </div>
+              <p id="syncText" style="margin-top:24px; font-size:12px; color:var(--text-dim);">Connecting...</p>
+              
+              <!-- Glowing Chart -->
+              <div class="chart-container" style="position:relative; height:200px; margin-top:24px;">
+                <canvas id="leadsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ Magic Bento Features Grid ═══ -->
+        <section id="bentoSection" class="section bento-section" style="padding:0; background:transparent; border:none; backdrop-filter:none; box-shadow:none;">
+          <div style="margin-bottom:32px; padding:0 8px;">
+            <span class="eyebrow">Platform Highlights</span>
+            <h2 style="font-size:32px;">Built for Modern Teams</h2>
+            <p style="color:var(--text-muted); margin-top:8px; max-width:500px;">Everything you need to capture, nurture, and convert leads — packed into one premium experience.</p>
+          </div>
+          <div id="magicBentoGrid" class="card-grid bento-section">
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="0">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:var(--accent-3);">bolt</span>Speed</div>
+              </div>
+              <div class="bento-visual visual-speed">
+                <div class="speed-track"><div class="speed-bar"></div></div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">Lightning Capture</h2>
+                <p class="magic-bento-card__description">Add leads in under 5 seconds. Manual, QR, or business card — your choice.</p>
+              </div>
+            </div>
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="1">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:var(--warm);">insights</span>Pipeline</div>
+              </div>
+              <div class="bento-visual visual-pipeline">
+                <div class="pipe-node hot"></div><div class="pipe-line"></div>
+                <div class="pipe-node warm"></div><div class="pipe-line"></div>
+                <div class="pipe-node cold"></div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">Smart Pipeline</h2>
+                <p class="magic-bento-card__description">Organize leads by temperature: Hot, Warm, or Cold. Drag-and-drop simplicity.</p>
+              </div>
+            </div>
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="2">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:var(--hot);">forum</span>Outreach</div>
+              </div>
+              <div class="bento-visual visual-outreach">
+                <div class="chat-bubble">
+                  <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">Instant Follow-up</h2>
+                <p class="magic-bento-card__description">One-click WhatsApp messaging with custom templates. Never let a lead go cold.</p>
+              </div>
+            </div>
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="3">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:var(--cold);">analytics</span>Analytics</div>
+              </div>
+              <div class="bento-visual visual-analytics">
+                <div class="bar-chart">
+                  <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">Real-time Analytics</h2>
+                <p class="magic-bento-card__description">Live charts, conversion stats, and team performance — all in a single dashboard view.</p>
+              </div>
+            </div>
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="4">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:var(--accent-1);">download</span>Export</div>
+              </div>
+              <div class="bento-visual visual-export">
+                <div class="export-file">CSV<div class="export-arrow">↓</div></div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">One-click Export</h2>
+                <p class="magic-bento-card__description">Download leads as CSV, or share filtered datasets with your team instantly.</p>
+              </div>
+            </div>
+            <div class="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow particle-container" data-bento-idx="5">
+              <div class="magic-bento-card__header">
+                <div class="magic-bento-card__label"><span class="material-symbols-outlined" style="font-size:20px; vertical-align:middle; margin-right:6px; color:#10b981;">shield</span>Security</div>
+              </div>
+              <div class="bento-visual visual-security">
+                <div class="shield-pulse"></div>
+                <div class="shield-core"><span class="material-symbols-outlined">lock</span></div>
+              </div>
+              <div class="magic-bento-card__content">
+                <h2 class="magic-bento-card__title">Enterprise Security</h2>
+                <p class="magic-bento-card__description">Firebase authentication, encrypted storage, and role-based access control.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="captureSection" class="section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+            <div>
+              <span class="eyebrow">Quick Entry</span>
+              <h2>Add New Lead</h2>
+            </div>
+            <span id="formModePill" style="background:var(--bg-panel); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; color:var(--accent-3);">Create Mode</span>
+          </div>
+
+          <form id="leadForm">
+            <div class="form-options">
+              <div>
+                <label class="option-label">Source</label>
+                <div id="sourceSwitch" class="chip-group">
+                  <div class="chip mode-chip--active" data-source="manual">Manual</div>
+                  <div class="chip" data-source="card">Card Photo</div>
+                  <div class="chip" data-source="qr">QR Code</div>
+                </div>
+              </div>
+              <div>
+                <label class="option-label">Temperature</label>
+                <div id="temperatureSwitch" class="chip-group">
+                  <div class="chip temp-chip--active" data-temperature="hot">Hot</div>
+                  <div class="chip" data-temperature="warm">Warm</div>
+                  <div class="chip" data-temperature="cold">Cold</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label class="input-label" for="name">Full Name</label>
+                <input id="name" name="name" type="text" placeholder="John Doe" required />
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="phone">Phone Number</label>
+                <input id="phone" name="phone" type="tel" placeholder="+1 234 567 8900" required />
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="company">Company</label>
+                <input id="company" name="company" type="text" placeholder="Acme Corp" />
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="expoName">Event Name</label>
+                <input id="expoName" name="expoName" type="text" value="Expo 2026" />
+              </div>
+            </div>
+
+            <div class="input-group" style="margin-top:16px;">
+              <label class="input-label" for="notes">Notes</label>
+              <textarea id="notes" name="notes" placeholder="Follow-up context..."></textarea>
+            </div>
+
+            <div id="cardUploadBlock" class="context-panel--hidden" style="margin-bottom:24px; padding:32px; border:2px dashed var(--border-highlight); border-radius:var(--radius-md); text-align:center; position:relative; overflow:hidden;">
+              <span id="uploadIcon" class="material-symbols-outlined" style="font-size:40px; color:var(--text-dim);">add_photo_alternate</span>
+              <p id="uploadText" style="margin:12px 0; color:var(--text-muted);">Upload visiting card image</p>
+              <img id="cardPreview" style="display:none; max-width:100%; max-height:200px; border-radius:8px; margin:0 auto 16px auto; box-shadow:0 10px 20px rgba(0,0,0,0.3);" />
+              <input id="cardFile" type="file" accept="image/*" style="margin:0 auto; display:block;" />
+              <button type="button" id="clearCardButton" class="btn btn-ghost" style="display:none; margin:16px auto 0 auto; color:var(--hot); border-color:var(--hot);">Remove Image</button>
+            </div>
+
+            <div id="qrInputBlock" class="context-panel--hidden" style="margin-bottom:24px;">
+              <label class="input-label" for="qrPayload">QR/vCard Data</label>
+              <textarea id="qrPayload" rows="4" placeholder="Paste vCard data..."></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:16px; margin-top:32px;">
+              <button id="cancelEditButton" type="button" class="btn btn-ghost ghost-button--hidden">Cancel</button>
+              <button id="saveButton" type="submit" class="btn btn-primary">Save Lead</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="pipelineSection" class="section">
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
+            <div>
+              <span class="eyebrow">Lead Pipeline</span>
+              <h2>Active Leads</h2>
+              <p id="resultsSummary" style="color:var(--text-muted); margin-top:8px;">Loading leads...</p>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <input id="dateFilter" type="date" style="background:var(--bg-panel); border:1px solid var(--border-subtle); color:var(--text-main); padding:8px 16px; border-radius:var(--radius-sm); flex-shrink:0;" />
+              <button id="applyFiltersButton" class="btn btn-glass" style="flex-shrink:0;">Apply</button>
+              <button id="clearFiltersButton" class="btn btn-ghost" style="flex-shrink:0;">Clear</button>
+              <button id="copyDataButton" class="btn btn-glass" style="border-color:var(--accent-1); color:var(--accent-1); flex-shrink:0;">Copy Data</button>
+              <button id="exportButton" class="btn btn-primary" style="flex-shrink:0;">Export CSV</button>
+            </div>
+          </div>
+
+          <div class="pipeline-grid">
+            <div class="pipeline-lane lane-hot">
+              <div class="lane-header">
+                <div class="lane-title"><span class="material-symbols-outlined lane-icon">local_fire_department</span> <span class="lane-label">Hot Leads</span></div>
+                <span id="hotCount" class="lane-count">0</span>
+              </div>
+              <div id="hotLeadList" class="lead-list"></div>
+            </div>
+
+            <div class="pipeline-lane lane-warm">
+              <div class="lane-header">
+                <div class="lane-title"><span class="material-symbols-outlined lane-icon">sunny</span> <span class="lane-label">Warm Leads</span></div>
+                <span id="warmCount" class="lane-count">0</span>
+              </div>
+              <div id="warmLeadList" class="lead-list"></div>
+            </div>
+
+            <div class="pipeline-lane lane-cold">
+              <div class="lane-header">
+                <div class="lane-title"><span class="material-symbols-outlined lane-icon">ac_unit</span> <span class="lane-label">Cold Leads</span></div>
+                <span id="coldCount" class="lane-count">0</span>
+              </div>
+              <div id="coldLeadList" class="lead-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="followupSection" class="section">
+          <div style="display:flex; justify-content:space-between; margin-bottom:24px;">
+            <div>
+              <span class="eyebrow">Messaging</span>
+              <h2>Follow-up Template</h2>
+            </div>
+            <button id="resetTemplateButton" class="btn btn-ghost">Reset Template</button>
+          </div>
+          <textarea id="followupTemplate" rows="5" placeholder="Enter follow-up message..."></textarea>
+          <p style="color:var(--text-dim); font-size:13px; margin-top:12px;">The lead's name will be automatically added at the beginning (e.g., "Hi John,").</p>
+        </section>
+        
+        <section id="exportSection" class="section" style="text-align:center; padding:60px;">
+          <span class="material-symbols-outlined" style="font-size:64px; color:var(--accent-3); margin-bottom:24px;">file_download</span>
+          <h2 style="margin-bottom:16px;">Export Your Data</h2>
+          <p style="color:var(--text-muted); max-width:400px; margin:0 auto 32px;">Download all your leads as a CSV file. Perfect for imports or sharing with your team.</p>
+          <button id="exportButtonSecondary" class="btn btn-primary">Download CSV</button>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toastStack" class="toast-container"></div>
+
+  <template id="leadCardTemplate">
+    <div class="lead-card">
+      <div class="lead-card-header">
+        <div class="lead-avatar"></div>
+        <div>
+          <h3 class="lead-card__name"></h3>
+          <span class="lead-card__company"></span>
+        </div>
+      </div>
+      <div class="lead-card__meta"></div>
+      <div class="lead-card-footer">
+        <span class="lead-card__badge"></span>
+        <div class="lead-actions">
+          <button class="lead-card__mark">Contacted</button>
+          <div class="lead-card__menu-wrap">
+            <button class="lead-card__menu-button"><span class="material-symbols-outlined">more_vert</span></button>
+            <div class="menu-dropdown">
+              <button class="menu-item lead-card__menu-edit"><span class="material-symbols-outlined" style="font-size:16px;">edit</span> Edit</button>
+              <button class="menu-item lead-card__menu-delete" style="color:var(--hot);"><span class="material-symbols-outlined" style="font-size:16px;">delete</span> Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="lead-card__message"><span class="material-symbols-outlined">chat</span> Send Message</button>
+    </div>
+  </template>
+
+  <!-- Command Palette -->
+  <div id="commandPalette" class="command-palette-backdrop">
+    <div class="command-palette">
+      <div class="cp-search">
+        <span class="material-symbols-outlined">search</span>
+        <input id="cpInput" type="text" placeholder="Search leads or type a command... (Esc to close)" />
+      </div>
+      <div class="cp-results">
+        <div class="cp-group">
+          <div class="cp-group-title">Quick Actions</div>
+          <button class="cp-item" data-action="new-lead">
+            <span class="material-symbols-outlined cp-icon">add_circle</span>
+            <span>Add New Lead</span>
+          </button>
+          <button class="cp-item" data-action="export">
+            <span class="material-symbols-outlined cp-icon">download</span>
+            <span>Export CSV</span>
+          </button>
+          <button class="cp-item" data-action="toggle-theme">
+            <span class="material-symbols-outlined cp-icon">dark_mode</span>
+            <span>Toggle Theme</span>
+          </button>
+        </div>
+        <div class="cp-group" id="cpLeadResultsGroup" style="display:none;">
+          <div class="cp-group-title">Leads</div>
+          <div id="cpLeadResults"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div><!-- /page-face--front -->
+
+      <!-- ═══ BACK FACE (About Us Page) ═══ -->
+      <div class="page-face page-face--back">
+        <div class="about-back-wrapper">
+
+          <button id="backToAppBtn" class="btn-back-flip" onclick="flipToMain(event)">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back to CRM
+          </button>
+
+          <div class="about-container">
+            <!-- Section 1: What we do -->
+            <section class="about-section">
+              <h2 class="about-section-title">What We Do</h2>
+              <div class="about-feature-list">
+                <div class="about-feature-item">
+                  <h3><span class="material-symbols-outlined about-icon">construction</span> Stall Fabrication</h3>
+                  <p>Custom-built exhibition structures designed to make a massive impact and perfectly align with your brand.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3><span class="material-symbols-outlined about-icon">event</span> Event Setup</h3>
+                  <p>Complete on-ground execution taking your event from an empty floor to a fully functional space.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3><span class="material-symbols-outlined about-icon">groups</span> Manpower Support</h3>
+                  <p>A skilled and highly reliable workforce to ensure everything is handled efficiently and professionally.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3><span class="material-symbols-outlined about-icon">location_on</span> Site Coordination</h3>
+                  <p>Smooth, supervised delivery and proactive management of on-site operations for zero hiccups.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 2: Why Choose Us -->
+            <section class="about-section">
+              <h2 class="about-section-title">Why Choose Us</h2>
+              <div class="about-feature-list">
+                <div class="about-feature-item">
+                  <h3>1. Fast Turnaround</h3>
+                  <p>We execute setups extremely quickly without ever compromising on the quality of our work.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3>2. Reliable Network</h3>
+                  <p>Trusted fabricators and manpower network ready for rapid deployment when you need them.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3>3. Cost-Effective</h3>
+                  <p>Optimized execution pricing without unnecessary overheads, giving you maximum value.</p>
+                </div>
+                <div class="about-feature-item">
+                  <h3>4. On-Ground Supervision</h3>
+                  <p>Active, vigilant coordination to ensure a remarkably smooth delivery on site.</p>
+                </div>
+              </div>
+
+              <div class="about-highlight-box">
+                <h2>ON-TIME DELIVERY</h2>
+                <h2 style="color: var(--cold);">ZERO HASSLE COORDINATION</h2>
+              </div>
+            </section>
+
+            <!-- Section 3: Contact -->
+            <section class="about-section">
+              <h2 class="about-section-title">2 Bits Assistance</h2>
+              <div class="about-contact-card">
+                <div class="about-contact-info">
+                  <p style="color: var(--text-muted); margin-bottom: 30px; font-style: italic; font-size: 18px;">"Every. Bit. Counts."</p>
+                  <div class="about-contact-line">
+                    <span class="material-symbols-outlined about-contact-icon">person</span>
+                    <span>Gurpreet &times; Deepanshu &times; Anjali</span>
+                  </div>
+                  <div class="about-contact-line">
+                    <span class="material-symbols-outlined about-contact-icon">call</span>
+                    <span>9217673407, 8826388361, 9971191384</span>
+                  </div>
+                  <div class="about-contact-line">
+                    <span class="material-symbols-outlined about-contact-icon">mail</span>
+                    <span>2bitsassistance@gmail.com</span>
+                  </div>
+                  <div class="about-contact-line">
+                    <span class="material-symbols-outlined about-contact-icon">location_city</span>
+                    <span>Dwarka, Delhi-110075</span>
+                  </div>
+                </div>
+
+                <div style="flex: 1; min-width: 250px;">
+                  <div class="about-services-box">
+                    <h4 style="margin-bottom: 15px; color: var(--cold); font-size: 18px;">Our Services</h4>
+                    <ul style="list-style: none; color: var(--text-muted); text-align: left; display: inline-block;">
+                      <li style="margin-bottom: 10px; font-weight: 500;">&bull; Event Planning</li>
+                      <li style="margin-bottom: 10px; font-weight: 500;">&bull; Management</li>
+                      <li style="margin-bottom: 10px; font-weight: 500;">&bull; Coordination</li>
+                      <li style="font-weight: 500;">&bull; On-Site Support</li>
+                    </ul>
+                    <br><br>
+                    <a href="https://wa.me/919217673407" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none; padding: 12px 24px; border-radius: 100px;">
+                      Contact us on WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </div><!-- /page-face--back -->
+
+    </div><!-- /page-flip-container -->
+  </div><!-- /page-flip-perspective -->
+  </click-spark>
+
+  <script src="/click-spark.js"></script>
+  <script src="/app.js"></script>
+  <script src="/magic-bento.js"></script>
+</body>
+</html>

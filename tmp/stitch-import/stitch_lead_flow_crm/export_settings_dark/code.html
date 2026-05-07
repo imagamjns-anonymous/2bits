@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Editorial - Export &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3B82F6",
+                        "primary-container": "#2563EB",
+                        surface: {
+                            DEFAULT: "#fafafa",
+                            dark: "#020617"
+                        },
+                        "surface-container": {
+                            DEFAULT: "#f1f5f9",
+                            dark: "#0f172a"
+                        },
+                        "surface-container-low": {
+                            DEFAULT: "#f8fafc",
+                            dark: "#020617"
+                        }
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Manrope", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-headline { font-family: 'Manrope', sans-serif; }
+        
+        .kinetic-shadow {
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .dark .kinetic-shadow {
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 6px -1px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-extrabold tracking-tighter text-blue-600 dark:text-blue-400">Precision Editorial</span>
+<div class="hidden md:flex items-center ml-8 bg-slate-100 dark:bg-slate-900 rounded-full px-4 py-1.5 gap-2">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-slate-600 dark:text-slate-400" placeholder="Search data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors scale-95 active:scale-90 transition-transform" id="theme-toggle">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs">JD</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-slate-50 dark:bg-slate-950 flex flex-col gap-y-2 p-4 border-r border-slate-100 dark:border-slate-900 z-40">
+<nav class="flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/40 rounded-lg transition-transform duration-200 font-inter text-sm font-medium tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/40 rounded-lg transition-transform duration-200 font-inter text-sm font-medium tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+            All Leads
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/40 rounded-lg transition-transform duration-200 font-inter text-sm font-medium tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+            WhatsApp Follow-up
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 rounded-l-lg transition-transform duration-200 font-inter text-sm font-bold tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+            Export Data
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 rounded-l-lg transition-transform duration-200 font-inter text-sm font-bold tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+            Settings
+        </a>
+</nav>
+<div class="mt-auto p-4 bg-slate-100 dark:bg-slate-900 rounded-xl">
+<p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Workspace</p>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-white text-xs font-black">PE</div>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-slate-100">Precision Editorial</p>
+<p class="text-[10px] text-slate-500">v1.0.4</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 pt-24 p-8 lg:p-12 max-w-7xl mx-auto">
+<header class="mb-10">
+<h2 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 mb-2">Export &amp; Workspace Settings</h2>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Manage your data exports and automated communication templates.</p>
+</header>
+<div class="grid grid-cols-12 gap-8 mb-12">
+<!-- Export Card -->
+<section class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-xl p-8 lg:p-10 kinetic-shadow relative overflow-hidden transition-all duration-300">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-8">
+<span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-2.5 rounded-lg">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+</span>
+<span class="font-headline font-bold text-xs tracking-[0.2em] uppercase text-slate-400 dark:text-slate-500">Lead Database</span>
+</div>
+<h3 class="text-6xl font-black text-slate-900 dark:text-slate-50 mb-4 tabular-nums">4,821</h3>
+<p class="text-slate-500 dark:text-slate-400 max-w-md mb-10 leading-relaxed">Your complete prospect directory is ready for extraction. This includes lead contact info, custom tags, and campaign history.</p>
+</div>
+<div class="flex flex-wrap gap-4 relative z-10">
+<button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold shadow-lg shadow-blue-500/20 transition-all scale-100 hover:scale-[1.02] active:scale-95">
+<span class="material-symbols-outlined" data-icon="csv">csv</span>
+                    Export to CSV
+                </button>
+<button class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-8 py-4 rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="table_view">table_view</span>
+                    Excel Sheets
+                </button>
+</div>
+<!-- Decorative Vector -->
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
+</section>
+<!-- Stats -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-8 kinetic-shadow flex-1 border-l-4 border-blue-600">
+<p class="text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase tracking-widest mb-3">Last Export</p>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-3xl font-black text-slate-900 dark:text-slate-50">22 Oct</span>
+<span class="text-slate-400 dark:text-slate-500 text-sm font-medium">14:30</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">3,104 records exported to CSV</p>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-8 kinetic-shadow flex-1">
+<p class="text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase tracking-widest mb-4">Export Quota</p>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full mb-4 overflow-hidden">
+<div class="bg-blue-600 h-full rounded-full w-[65%] transition-all duration-1000"></div>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-bold">65% Used</p>
+<p class="text-slate-500 dark:text-slate-400 text-[11px] font-medium uppercase">65k / 100k Monthly</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Template Editor -->
+<section class="bg-white dark:bg-slate-900 rounded-xl kinetic-shadow overflow-hidden">
+<div class="p-8 lg:p-10 border-b border-slate-100 dark:border-slate-800">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
+<div>
+<h3 class="text-2xl font-extrabold text-slate-900 dark:text-slate-50 mb-2">Automated Messaging</h3>
+<p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">Define the default outreach template for instant WhatsApp follow-ups. Personalize with variables to increase response rates.</p>
+</div>
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full border border-blue-100 dark:border-blue-900/40 self-start">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-black uppercase tracking-widest">Active Template</span>
+</div>
+</div>
+<div class="space-y-8">
+<div>
+<label class="block text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase tracking-widest mb-4">WhatsApp Message Body</label>
+<div class="relative group">
+<textarea class="w-full h-48 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-xl p-6 text-slate-900 dark:text-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 focus:bg-white dark:focus:bg-slate-900 transition-all duration-300 resize-none font-body leading-relaxed text-base" placeholder="Write your message here...">Hi {lead_name}, it was great meeting you at {expo_name}! 
+
+I'd love to follow up on our conversation regarding {product_interest}. Would you have 10 minutes for a quick discovery call next Tuesday?
+
+Best, 
+The Precision Editorial Team</textarea>
+<div class="absolute bottom-4 right-4 flex gap-2">
+<button class="bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-slate-700 shadow-sm hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 transition-all">+{lead_name}</button>
+<button class="bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-slate-200 dark:border-slate-700 shadow-sm hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 transition-all">+{expo_name}</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6 text-sm">
+<div class="flex items-center gap-2 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-lg">info</span>
+<span class="font-medium">Recommended: 200 chars</span>
+</div>
+<div class="h-4 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
+<div class="font-bold text-blue-600 dark:text-blue-400">184 characters used</div>
+</div>
+<button class="w-full sm:w-auto bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-10 py-4 rounded-lg font-bold hover:opacity-90 transition-all active:scale-95 shadow-xl shadow-slate-900/10">
+                        Save Template Changes
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<footer class="mt-20 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60">
+<p class="text-sm font-bold tracking-tight text-slate-500 dark:text-slate-400 uppercase">Precision Editorial © 2024</p>
+<div class="flex gap-8">
+<a class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#">API Docs</a>
+<a class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="#">Support</a>
+</div>
+</footer>
+</main>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            html.classList.add('light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.classList.remove('light');
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // Sync with local storage or system preference on load
+    if (localStorage.getItem('theme') === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+    } else {
+        html.classList.add('dark');
+    }
+</script>
+<div class="pointer-events-none fixed inset-0 z-[60] opacity-[0.015] dark:opacity-[0.03]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTm3cvtGlplO1BokJAaH2f_b_tfYvpzjVtrn6ayRbXT-DCON-i4rfh3rzz4ru1Oe8wki-0Ldp5D4GFMfNG0cGzUa-CLv4-jgxhGT0-z2hU5kLQoD9rJYhN5_jHG47-ehkQUKbJOKHC3E5M1v9XKb0QDoX-lTmDLbKQ3oHvsyMG4xkuZKSpSLuKfXcGXUWuGGHGwNFkxM-p1TS36TdMb1sUZEaA_6LrHva44qwSfZh9hWL_VKsa1JpA3rPnSlVD3A8s-2QfOz_LN7Kr');"></div>
+</body></html>

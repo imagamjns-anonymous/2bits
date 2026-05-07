@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/health",
+      "destination": "/api"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "excludeFiles": "public/**"
+    }
+  }
+}

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Editorial | Lead Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline-font { font-family: 'Manrope', sans-serif; }
+        
+        /* Kinetic Architect Smooth Transitions */
+        .transition-kinetic {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .dark .dark-glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                primary: "#3B82F6",
+                "primary-container": "#2563EB",
+                secondary: "#64748B",
+                background: "#0F172A",
+                surface: "#1E293B",
+                "surface-variant": "#334155",
+                "on-surface": "#F8FAFC",
+                "on-surface-variant": "#94A3B8",
+                outline: "#475569",
+              },
+              borderRadius: {
+                DEFAULT: "0.5rem",
+                lg: "0.5rem",
+                xl: "1rem",
+                full: "9999px"
+              },
+              fontFamily: {
+                manrope: ["Manrope", "sans-serif"],
+                inter: ["Inter", "sans-serif"]
+              }
+            },
+          }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased min-h-screen transition-colors duration-300">
+<!-- SideNavBar (Kinetic Architect Style) -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-slate-950 flex flex-col border-r border-slate-800 z-40 hidden md:flex">
+<div class="px-6 mb-8">
+<h1 class="font-manrope text-lg font-black text-slate-50">LEADENGINE</h1>
+<p class="font-inter text-[10px] font-bold text-slate-500 uppercase tracking-widest">v1.0.4</p>
+</div>
+<nav class="flex flex-col gap-y-1 p-4 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800/40 rounded-lg transition-kinetic hover:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium tracking-wide uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-400 bg-blue-900/20 border-r-4 border-blue-600 rounded-lg transition-kinetic hover:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="group">group</span>
+<span class="font-inter text-sm font-bold tracking-wide uppercase">All Leads</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800/40 rounded-lg transition-kinetic hover:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-inter text-sm font-medium tracking-wide uppercase">WhatsApp Follow-up</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800/40 rounded-lg transition-kinetic hover:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="download">download</span>
+<span class="font-inter text-sm font-medium tracking-wide uppercase">Export Data</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800/40 rounded-lg transition-kinetic hover:translate-x-1" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="font-inter text-sm font-medium tracking-wide uppercase">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 space-y-2 border-t border-slate-800">
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition-kinetic active:scale-95 text-xs uppercase tracking-widest">
+            New Campaign
+        </button>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="logout">logout</span>
+<span class="font-inter text-sm font-medium uppercase">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen">
+<!-- TopNavBar (Shared Component style) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 h-16 bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 z-50 border-b border-slate-800">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-xl" data-icon="search">search</span>
+</span>
+<input class="pl-10 pr-4 py-2 bg-slate-900 border-none rounded-lg w-full text-sm focus:ring-2 focus:ring-blue-500 transition-kinetic text-slate-200 placeholder-slate-500" placeholder="Search leads by name or company..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:bg-slate-800/50 rounded-lg transition-kinetic" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined" data-icon="light_mode">light_mode</span>
+</button>
+<button class="p-2 text-slate-400 hover:bg-slate-800/50 rounded-lg transition-kinetic">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-px bg-slate-800 mx-1"></div>
+<div class="flex items-center gap-3">
+<div class="hidden sm:block text-right">
+<p class="text-sm font-bold text-slate-50 font-manrope">Alex Mercer</p>
+<p class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Admin</p>
+</div>
+<img alt="User profile avatar" class="w-9 h-9 rounded-lg border border-blue-900" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYsFHN72H1V6qXmONYxKS3LhZuLbEm895pPiGy97QcKqrMpdRFeloN_VwwBu34tf-yJfnQMrjxzf7FJhf7GG_ml7JCGxwxggS9UffpH733Je8XJAZyCTlA2GsftUkSJzB0wDwH33MTYXVz03TkZKMqvKb-Bs5ocea8GP_Ebk561mpTVgiV3J5a5XDaJqqcY8lD1sjyGiwJ3yvZZQXaYzF5CYgk9IvnPg4pfL7rmRxVMSJdteebXeSNuQowizf8tG4QeUiDzo3dRvie"/>
+</div>
+<button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg shadow-blue-500/20 transition-kinetic active:scale-95">
+                Add Lead
+            </button>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="pt-24 p-8">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h2 class="text-3xl font-extrabold text-slate-50 font-manrope tracking-tight mb-2">Master Pipeline</h2>
+<p class="text-base text-slate-400">
+                    Curate and monitor your editorial leads. High-intent opportunities are highlighted for immediate WhatsApp follow-up.
+                </p>
+</div>
+<!-- Filters Section -->
+<div class="flex flex-wrap items-center gap-2 bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+<button class="px-4 py-2 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm">All Leads</button>
+<button class="px-4 py-2 rounded-md text-xs font-bold text-slate-500 hover:bg-slate-800 transition-kinetic">Hot</button>
+<button class="px-4 py-2 rounded-md text-xs font-bold text-slate-500 hover:bg-slate-800 transition-kinetic">Warm</button>
+<button class="px-4 py-2 rounded-md text-xs font-bold text-slate-500 hover:bg-slate-800 transition-kinetic">Cold</button>
+<div class="h-4 w-px bg-slate-700 mx-1"></div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold text-slate-500 hover:bg-slate-800 transition-kinetic">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                    Last 30 Days
+                </button>
+</div>
+</div>
+<!-- Leads List: Kinetic Architect Cards -->
+<div class="space-y-4">
+<!-- Lead Card 1 (Hot) -->
+<div class="grid grid-cols-12 items-center bg-slate-900 p-5 rounded-xl border border-slate-800 group hover:border-blue-700 transition-kinetic hover:shadow-xl hover:shadow-blue-500/5">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-11 h-11 rounded-lg bg-red-900/30 flex items-center justify-center text-red-400 font-bold text-base">
+                        JR
+                    </div>
+<div>
+<h3 class="font-bold text-slate-50 text-base font-manrope">Julianne Ricci</h3>
+<p class="text-xs text-slate-500 font-medium">Head of Content, Vogue Italia</p>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Company</p>
+<p class="text-sm font-semibold text-slate-300">Condé Nast</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Date Added</p>
+<p class="text-sm font-medium text-slate-300">Oct 24, 2023</p>
+</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider bg-red-900/40 text-red-400">
+                        Hot Lead
+                    </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-blue-700 active:scale-95 transition-kinetic shadow-md shadow-blue-500/10">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+                        Send Message
+                    </button>
+</div>
+</div>
+<!-- Lead Card 2 (Warm) -->
+<div class="grid grid-cols-12 items-center bg-slate-900 p-5 rounded-xl border border-slate-800 group hover:border-blue-700 transition-kinetic hover:shadow-xl hover:shadow-blue-500/5">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-11 h-11 rounded-lg bg-blue-900/30 flex items-center justify-center text-blue-400 font-bold text-base">
+                        MB
+                    </div>
+<div>
+<h3 class="font-bold text-slate-50 text-base font-manrope">Marcus Bennett</h3>
+<p class="text-xs text-slate-500 font-medium">Lead Editor, TechCrunch</p>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Company</p>
+<p class="text-sm font-semibold text-slate-300">Yahoo! Media</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Date Added</p>
+<p class="text-sm font-medium text-slate-300">Oct 22, 2023</p>
+</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-900/40 text-blue-400">
+                        Warm Lead
+                    </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-2 bg-slate-800 text-slate-300 px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-700 active:scale-95 transition-kinetic">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+                        Send Message
+                    </button>
+</div>
+</div>
+<!-- Lead Card 3 (Cold) -->
+<div class="grid grid-cols-12 items-center bg-slate-900 p-5 rounded-xl border border-slate-800 group hover:border-blue-700 transition-kinetic hover:shadow-xl hover:shadow-blue-500/5 opacity-80 hover:opacity-100">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-11 h-11 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 font-bold text-base">
+                        SY
+                    </div>
+<div>
+<h3 class="font-bold text-slate-50 text-base font-manrope">Sarah Young</h3>
+<p class="text-xs text-slate-500 font-medium">Freelance Strategist</p>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Company</p>
+<p class="text-sm font-semibold text-slate-300">Independent</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Date Added</p>
+<p class="text-sm font-medium text-slate-300">Oct 20, 2023</p>
+</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400">
+                        Cold Lead
+                    </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="flex items-center gap-2 bg-slate-800 text-slate-300 px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-700 active:scale-95 transition-kinetic">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+                        Send Message
+                    </button>
+</div>
+</div>
+</div>
+<!-- Empty State (Kinetic Architect Style) -->
+<div class="mt-16 p-10 bg-blue-900/10 rounded-2xl border border-blue-900/30 flex flex-col items-center text-center max-w-md mx-auto">
+<div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/5">
+<span class="material-symbols-outlined text-3xl text-blue-400" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h4 class="text-xl font-bold mb-2 font-manrope text-slate-50">Ready for more?</h4>
+<p class="text-slate-400 text-sm leading-relaxed mb-6">Your current editorial queue is healthy. Import a new batch of LinkedIn prospects to refresh your pipeline.</p>
+<button class="bg-blue-600 text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-blue-700 transition-kinetic shadow-lg">
+                Import Leads
+            </button>
+</div>
+</section>
+</main>
+<!-- Mobile Bottom Navigation (Kinetic Architect Adaptation) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-xl flex md:hidden justify-around items-center py-4 px-6 border-t border-slate-800 z-50 rounded-t-2xl">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-blue-500">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">Leads</span>
+</button>
+<button class="bg-blue-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30 -mt-10 border-4 border-slate-950 transition-kinetic active:scale-90">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">Stats</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">Profile</span>
+</button>
+</nav>
+</body></html>

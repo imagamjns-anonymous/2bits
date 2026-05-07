@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#3B82F6",
+              "surface-dim": "#0f172a",
+              "secondary": "#94a3b8",
+              "on-primary": "#ffffff",
+              "on-surface": "#f8fafc",
+              "surface": "#020617",
+              "outline": "#334155",
+              "surface-variant": "#1e293b",
+              "error": "#ef4444"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.5rem",
+              "lg": "0.75rem",
+              "xl": "1rem",
+              "full": "9999px"
+            },
+            "fontFamily": {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        .form-focus:focus-within {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+<script>
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Initialize theme - override for "entire screen to dark mode" request
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+    </script>
+</head>
+<body class="bg-slate-950 font-body text-slate-200 min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl h-16 flex justify-between items-center px-6 border-b border-slate-900">
+<div class="flex items-center gap-4">
+<span class="text-xl font-extrabold tracking-tighter text-blue-400 font-headline">Kinetic Architect</span>
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">search</span>
+<input class="bg-slate-900 border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-blue-500/20 text-slate-200" placeholder="Search data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-slate-800/50 transition-all scale-95 active:scale-90 text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-800/50 transition-all scale-95 active:scale-90 text-slate-400" onclick="toggleDarkMode()">
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-blue-900 flex items-center justify-center overflow-hidden border border-slate-800 ml-2">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/a/default-user=s64-c"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-slate-950 flex flex-col p-4 border-r border-slate-900 z-40">
+<div class="mb-8 px-4">
+<h1 class="font-manrope text-lg font-black text-slate-50">LeadEngine</h1>
+<p class="text-[10px] font-inter font-medium tracking-wide uppercase text-slate-400">v1.0.4</p>
+</div>
+<nav class="flex-1 flex flex-col gap-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 font-inter text-sm font-medium tracking-wide uppercase hover:bg-slate-800/40 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-400 bg-blue-900/20 border-r-4 border-blue-600 font-inter text-sm font-medium tracking-wide uppercase transition-transform duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>All Leads</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 font-inter text-sm font-medium tracking-wide uppercase hover:bg-slate-800/40 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span>WhatsApp Follow-up</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 font-inter text-sm font-medium tracking-wide uppercase hover:bg-slate-800/40 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+<span>Export Data</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 font-inter text-sm font-medium tracking-wide uppercase hover:bg-slate-800/40 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 px-2">
+<button class="kinetic-gradient text-white w-full py-2.5 rounded-lg font-bold text-sm shadow-lg transition-all active:scale-95 hover:shadow-blue-500/20">
+            New Campaign
+        </button>
+<a class="flex items-center gap-3 px-4 py-3 mt-4 text-slate-400 hover:text-slate-100 font-inter text-sm font-medium tracking-wide uppercase hover:bg-slate-800/40 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-12 px-12 max-w-7xl mx-auto">
+<header class="mb-12">
+<div class="flex items-center gap-2 text-slate-400 mb-4 group cursor-pointer w-fit">
+<span class="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-1" data-icon="arrow_back">arrow_back</span>
+<span class="font-label text-xs uppercase tracking-widest">Back to Leads Database</span>
+</div>
+<h2 class="font-headline text-5xl font-extrabold text-white tracking-tighter mb-4">Create New Lead</h2>
+<p class="text-slate-400 font-body text-lg leading-relaxed max-w-2xl">Enter prospect information to begin the qualification workflow. All fields are automatically archived for the editorial team.</p>
+</header>
+<section class="grid grid-cols-12 gap-8">
+<!-- Form -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-slate-900 p-10 rounded-lg border border-slate-800 shadow-sm">
+<form class="space-y-8">
+<div class="space-y-2">
+<label class="font-label text-xs font-bold uppercase tracking-wider text-slate-400">Full Name</label>
+<div class="bg-slate-950 rounded-lg border border-slate-800 transition-all focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500">
+<input class="w-full bg-transparent border-none focus:ring-0 px-4 py-3.5 text-white font-headline font-semibold text-lg placeholder:text-slate-600" placeholder="e.g. Jonathan Ive" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label text-xs font-bold uppercase tracking-wider text-slate-400">Phone Number</label>
+<div class="flex gap-2 bg-slate-950 rounded-lg border border-slate-800 transition-all focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500">
+<select class="bg-transparent border-none focus:ring-0 text-sm font-semibold text-slate-400 px-3 border-r border-slate-800">
+<option class="bg-slate-900">US +1</option>
+<option class="bg-slate-900">UK +44</option>
+<option class="bg-slate-900">DE +49</option>
+<option class="bg-slate-900">FR +33</option>
+</select>
+<input class="flex-1 bg-transparent border-none focus:ring-0 px-2 py-3.5 text-white font-headline font-semibold text-lg placeholder:text-slate-600" placeholder="(555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-bold uppercase tracking-wider text-slate-400">Company</label>
+<div class="bg-slate-950 rounded-lg border border-slate-800 transition-all focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500">
+<input class="w-full bg-transparent border-none focus:ring-0 px-4 py-3.5 text-white font-headline font-semibold text-lg placeholder:text-slate-600" placeholder="Acme Corp" type="text"/>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-bold uppercase tracking-wider text-slate-400">Prospect Notes</label>
+<div class="bg-slate-950 rounded-lg border border-slate-800 transition-all focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500">
+<textarea class="w-full bg-transparent border-none focus:ring-0 px-4 py-3.5 text-white font-body leading-relaxed placeholder:text-slate-600 resize-none" placeholder="Mentioned interest in premium editorial packages during initial outreach..." rows="4"></textarea>
+</div>
+</div>
+<div class="space-y-4 pt-4">
+<label class="font-label text-xs font-bold uppercase tracking-wider text-slate-400">Qualification Status</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<button class="group flex flex-col items-center justify-center p-6 rounded-lg bg-orange-950/20 text-orange-400 border-2 border-transparent hover:border-orange-600 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-3xl mb-1" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-headline font-extrabold text-sm uppercase tracking-tight">Hot Lead</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-6 rounded-lg bg-blue-950/20 text-blue-400 border-2 border-transparent hover:border-blue-600 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-3xl mb-1" data-icon="wb_sunny" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<span class="font-headline font-extrabold text-sm uppercase tracking-tight">Warm</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-6 rounded-lg bg-slate-800 text-slate-400 border-2 border-transparent hover:border-slate-600 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-3xl mb-1" data-icon="ac_unit">ac_unit</span>
+<span class="font-headline font-extrabold text-sm uppercase tracking-tight">Cold</span>
+</button>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-800">
+<button class="kinetic-gradient text-white w-full py-4 rounded-lg font-headline font-extrabold text-xl tracking-tight shadow-xl shadow-blue-500/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3" type="submit">
+<span class="material-symbols-outlined" data-icon="save">save</span>
+                            Save Lead Profile
+                        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Sidebar -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<div class="bg-slate-900 p-8 rounded-lg border border-slate-800 shadow-sm">
+<h3 class="font-headline font-bold text-xl mb-4 text-white">Lead Score Intelligence</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<span class="text-slate-400 text-sm">Editorial Readiness</span>
+<span class="bg-blue-900/40 text-blue-400 font-label text-[10px] font-bold uppercase px-2 py-1 rounded-full tracking-wider">85% Ready</span>
+</div>
+<div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full kinetic-gradient w-[85%]"></div>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed italic">Based on company size and notes clarity, this lead is trending towards high-intent engagement.</p>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden group border border-slate-800">
+<img alt="Modern collaborative workspace" class="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfeXrF56OSq980TMC7-2cOj3dyD-aa66ONlr0ykktMh_zCM_yPV2s9rdnm9oR7LqqAGDM5vfviKI5O2cELZE83PBBkIQxel4XlyKwqmVAj4ZlEcby_RpTAvqSpDoCfyoiV1Vru3ln0_Kp2OhDQsvqTLgRo93MbP976oSIrKrBEXSeWfy880dpRgK8FJJ16NeOYJqL7lbvs0vvRSe0Q0Lp1QaN7bvBBMY5igiJglJ1mwfi64VmUoZ3zmT4HKBkhPr5RY5qgSclgmYQZ"/>
+<div class="absolute inset-0 bg-blue-600/40 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="text-white font-headline font-bold text-lg px-6 text-center">Precision Workflow Enabled</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

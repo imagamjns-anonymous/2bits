@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | 2 Bits Assistance</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script type="module" src="/aurora.js"></script>
+  <style>
+    .about-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      padding-top: 100px;
+    }
+    
+    .about-section {
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px var(--glass-shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .about-section:hover {
+      transform: translateY(-5px);
+    }
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-item {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .feature-item h3 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .feature-item h3 .icon {
+      color: var(--accent-1);
+    }
+
+    .feature-item p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      text-align: center;
+      margin-top: 30px;
+      color: white;
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .highlight-box h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .contact-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .contact-info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      font-size: 16px;
+    }
+
+    .contact-line .icon {
+      color: var(--accent-3);
+      background: rgba(255,255,255,0.1);
+      padding: 8px;
+      border-radius: 50%;
+    }
+    
+    .btn-back {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      z-index: 100;
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      padding: 10px 20px;
+      color: var(--text-main);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px var(--glass-shadow);
+    }
+
+    .btn-back:hover {
+      background: var(--nav-hover);
+      transform: translateX(-5px);
+      border-color: var(--glass-border-light);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <click-spark spark-color="#fff" spark-size="10" spark-radius="15" spark-count="8" duration="400">
+    <aurora-bg color-1="#7cff67" color-2="#B497CF" color-3="#5227FF" blend="0.5" amplitude="1.0" speed="0.5"></aurora-bg>
+
+    <a href="/" class="btn-back">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to CRM
+    </a>
+
+    <div class="about-container">
+      
+      <!-- Section 1: What we do -->
+      <section class="about-section">
+        <h2 class="section-title">What We Do</h2>
+        <div class="feature-list">
+          <div class="feature-item">
+            <h3><span class="material-symbols-outlined icon">construction</span> Stall Fabrication</h3>
+            <p>Custom-built exhibition structures designed to make a massive impact and perfectly align with your brand.</p>
+          </div>
+          <div class="feature-item">
+            <h3><span class="material-symbols-outlined icon">event</span> Event Setup</h3>
+            <p>Complete on-ground execution taking your event from an empty floor to a fully functional space.</p>
+          </div>
+          <div class="feature-item">
+            <h3><span class="material-symbols-outlined icon">groups</span> Manpower Support</h3>
+            <p>A skilled and highly reliable workforce to ensure everything is handled efficiently and professionally.</p>
+          </div>
+          <div class="feature-item">
+            <h3><span class="material-symbols-outlined icon">location_on</span> Site Coordination</h3>
+            <p>Smooth, supervised delivery and proactive management of on-site operations for zero hiccups.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Why Choose Us -->
+      <section class="about-section">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="feature-list">
+          <div class="feature-item">
+            <h3>1. Fast Turnaround</h3>
+            <p>We execute setups extremely quickly without ever compromising on the quality of our work.</p>
+          </div>
+          <div class="feature-item">
+            <h3>2. Reliable Network</h3>
+            <p>Trusted fabricators and manpower network ready for rapid deployment when you need them.</p>
+          </div>
+          <div class="feature-item">
+            <h3>3. Cost-Effective</h3>
+            <p>Optimized execution pricing without unnecessary overheads, giving you maximum value.</p>
+          </div>
+          <div class="feature-item">
+            <h3>4. On-Ground Supervision</h3>
+            <p>Active, vigilant coordination to ensure a remarkably smooth delivery on site.</p>
+          </div>
+        </div>
+        
+        <div class="highlight-box">
+          <h2>ON-TIME DELIVERY</h2>
+          <h2 style="color: var(--cold);">ZERO HASSLE COORDINATION</h2>
+        </div>
+      </section>
+
+      <!-- Section 3: Contact / Business Card -->
+      <section class="about-section">
+        <h2 class="section-title">2 Bits Assistance</h2>
+        <div class="contact-card">
+          <div class="contact-info">
+            <p style="color: var(--text-muted); margin-bottom: 30px; font-style: italic; font-size: 18px;">"Every. Bit. Counts."</p>
+            
+            <div class="contact-line">
+              <span class="material-symbols-outlined icon">person</span>
+              <span>Gurpreet &times; Deepanshu &times; Anjali</span>
+            </div>
+            <div class="contact-line">
+              <span class="material-symbols-outlined icon">call</span>
+              <span>9217673407, 8826388361, 9971191384</span>
+            </div>
+            <div class="contact-line">
+              <span class="material-symbols-outlined icon">mail</span>
+              <span>2bitsassistance@gmail.com</span>
+            </div>
+            <div class="contact-line">
+              <span class="material-symbols-outlined icon">location_city</span>
+              <span>Dwarka, Delhi-110075</span>
+            </div>
+          </div>
+          
+          <div style="flex: 1; min-width: 250px;">
+            <div style="background: rgba(0,0,0,0.3); padding: 30px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--border-subtle);">
+              <h4 style="margin-bottom: 15px; color: var(--cold); font-size: 18px;">Our Services</h4>
+              <ul style="list-style: none; color: var(--text-muted); text-align: left; display: inline-block;">
+                <li style="margin-bottom: 10px; font-weight: 500;">&bull; Event Planning</li>
+                <li style="margin-bottom: 10px; font-weight: 500;">&bull; Management</li>
+                <li style="margin-bottom: 10px; font-weight: 500;">&bull; Coordination</li>
+                <li style="font-weight: 500;">&bull; On-Site Support</li>
+              </ul>
+              <br><br>
+              <a href="https://wa.me/919217673407" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none; padding: 12px 24px; border-radius: 100px;">
+                Contact us on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </click-spark>
+
+  <script src="/click-spark.js"></script>
+</body>
+</html>

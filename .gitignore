@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+coverage/
+*.log
+.env
+mobile/.env
+server/.env
+server/config/*.json
+server/uploads/*
+!server/uploads/.gitkeep

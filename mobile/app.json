@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Expo Lead Hub",
+    "slug": "expo-lead-hub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Expo Lead Hub to scan QR codes from badges and contact cards."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Expo Lead Hub to access visiting card photos.",
+          "cameraPermission": "Allow Expo Lead Hub to capture visiting card images.",
+          "microphonePermission": false
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.example.expoleadhub"
+    },
+    "ios": {
+      "bundleIdentifier": "com.example.expoleadhub"
+    }
+  }
+}

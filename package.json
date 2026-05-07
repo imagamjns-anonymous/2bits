@@ -1,0 +1,16 @@
+{
+  "name": "expo-lead-hub",
+  "private": true,
+  "workspaces": [
+    "mobile",
+    "server"
+  ],
+  "scripts": {
+    "start:mobile": "npm --workspace mobile run start",
+    "start:server": "npm --workspace server run dev",
+    "start": "npm run start:server"
+  },
+  "dependencies": {
+    "lodash": "^4.18.1"
+  }
+}
