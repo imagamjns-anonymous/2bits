@@ -1,66 +1,9 @@
 const express = require("express");
-const vision = require("@google-cloud/vision");
-const path = require("path");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { requireAuth } = require("../middleware/auth");
 
 const router = express.Router();
 router.use(requireAuth);
-
-// ─── Initialize Vision client ────────────────────────────────────────────────
-// On Vercel: set GOOGLE_CLOUD_KEY_JSON env var = the full JSON content of the key file
-// Locally:   uses config/google-vision-key.json on disk
-let client;
-if (process.env.GOOGLE_CLOUD_KEY_JSON) {
-  // Vercel / production: credentials from env variable
-  const credentials = JSON.parse(process.env.GOOGLE_CLOUD_KEY_JSON);
-  client = new vision.ImageAnnotatorClient({ credentials });
-} else {
-  // Local development: credentials from key file
-  const keyPath = path.resolve(__dirname, "../../config/google-vision-key.json");
-  client = new vision.ImageAnnotatorClient({ keyFilename: keyPath });
-}
-
-/**
- * Parse OCR text to extract name, phone, and company
- */
-function parseBusinessCardText(text) {
-  // Phone patterns: Indian mobile (10 digits, 6-9 start), with or without +91, spaces, dashes
-  const phonePattern = /(?:\+91|0)?[\s-]?([6-9]\d{9}|[6-9]\d[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{2})/gi;
-  const phoneMatches = text.match(phonePattern) || [];
-  
-  const phone = phoneMatches.length > 0
-    ? phoneMatches[0].replace(/[^\d]/g, "").slice(-10) // Extract last 10 digits
-    : "";
-
-  // Remove phone numbers from text to avoid confusion with other fields
-  let cleanText = text.replace(phonePattern, "").trim();
-
-  // Split into lines for better parsing
-  const lines = cleanText.split(/[\n;,]/).map(line => line.trim()).filter(Boolean);
-
-  // Heuristics to find name, company
-  let name = "";
-  let company = "";
-
-  // Company keywords to identify company lines
-  const companyKeywords = /^(pvt|ltd|llp|co\.|corp|inc|company|solutions|services|group|consulting|industries|enterprises|trade|india|technologies|systems)/i;
-
-  for (const line of lines) {
-    if (line.length > 50 || companyKeywords.test(line)) {
-      // Long lines or lines with company keywords are likely company names
-      if (!company && line.length < 60) company = line;
-    } else if (line.length > 2 && line.length < 40 && /^[A-Z]/.test(line)) {
-      // Lines starting with capital letter, reasonable length = potential name
-      if (!name && !/[0-9]{2,}/.test(line)) name = line; // Avoid lines with many numbers
-    }
-  }
-
-  return {
-    name: name || "",
-    phone: phone || "",
-    company: company || "",
-  };
-}
 
 router.post("/scan", async (req, res, next) => {
   try {
@@ -70,31 +13,52 @@ router.post("/scan", async (req, res, next) => {
       return res.status(400).json({ error: "No image provided." });
     }
 
-    // Convert base64 to buffer
-    const imageBuffer = Buffer.from(imageBase64, "base64");
-
-    // Perform OCR using Google Cloud Vision
-    const request = {
-      image: { content: imageBuffer },
-    };
-
-    const [result] = await client.documentTextDetection(request);
-    const fullTextAnnotation = result.fullTextAnnotation;
-
-    if (!fullTextAnnotation || !fullTextAnnotation.text) {
-      return res.status(422).json({ error: "No text detected in image. Please try another photo." });
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(503).json({ error: "AI vision not configured on server." });
     }
 
-    const ocrText = fullTextAnnotation.text;
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model  = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Parse the OCR text to extract name, phone, company
-    const parsed = parseBusinessCardText(ocrText);
+    const prompt = `You are an expert at reading Indian business cards in ANY orientation (rotated, tilted, upside-down, dark background, any font).
+
+Extract ONLY these 3 fields and return ONLY a raw JSON object — no markdown, no explanation.
+
+Rules:
+- name: The person's full name only. NOT the company name. NOT the job title (Manager/CEO/Director etc).
+- phone: 10-digit Indian mobile number, digits only, strip +91 prefix. If multiple numbers, pick the mobile (starts with 6-9).
+- company: Company or organization name only. NOT the address.
+
+If unsure about a field, use "".
+
+Example: {"name":"Deepak Khosla","phone":"9773922477","company":"KG Bearing India LLP"}`;
+
+    const result = await model.generateContent([
+      prompt,
+      {
+        inlineData: {
+          mimeType: mimeType || "image/jpeg",
+          data: imageBase64,
+        },
+      },
+    ]);
+
+    const rawText  = result.response.text().trim();
+    const jsonText = rawText.replace(/^```json?\s*/i, "").replace(/```\s*$/i, "").trim();
+
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      return res.status(422).json({ error: "Could not read card clearly. Please fill manually." });
+    }
 
     return res.json({
       data: {
-        name: parsed.name,
-        phone: parsed.phone,
-        company: parsed.company,
+        name:    (parsed.name    || "").trim(),
+        phone:   (parsed.phone   || "").replace(/\D/g, ""),
+        company: (parsed.company || "").trim(),
       },
     });
 
