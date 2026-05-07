@@ -6,11 +6,19 @@ const { requireAuth } = require("../middleware/auth");
 const router = express.Router();
 router.use(requireAuth);
 
-// Initialize Vision client with service account key
-const keyPath = path.resolve(__dirname, "../../", process.env.GOOGLE_CLOUD_KEY_FILE || "config/google-vision-key.json");
-const client = new vision.ImageAnnotatorClient({
-  keyFilename: keyPath,
-});
+// ─── Initialize Vision client ────────────────────────────────────────────────
+// On Vercel: set GOOGLE_CLOUD_KEY_JSON env var = the full JSON content of the key file
+// Locally:   uses config/google-vision-key.json on disk
+let client;
+if (process.env.GOOGLE_CLOUD_KEY_JSON) {
+  // Vercel / production: credentials from env variable
+  const credentials = JSON.parse(process.env.GOOGLE_CLOUD_KEY_JSON);
+  client = new vision.ImageAnnotatorClient({ credentials });
+} else {
+  // Local development: credentials from key file
+  const keyPath = path.resolve(__dirname, "../../config/google-vision-key.json");
+  client = new vision.ImageAnnotatorClient({ keyFilename: keyPath });
+}
 
 /**
  * Parse OCR text to extract name, phone, and company
