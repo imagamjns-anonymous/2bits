@@ -63,6 +63,11 @@ Example: {"name":"Deepak Khosla","phone":"9773922477","company":"KG Bearing Indi
     });
 
   } catch (error) {
+    // Surface meaningful error messages from Gemini
+    const msg = error?.message || "AI scan failed.";
+    if (msg.includes("API_KEY") || msg.includes("401") || msg.includes("403")) {
+      return res.status(503).json({ error: "Gemini API key is invalid or missing. Check Vercel env vars." });
+    }
     next(error);
   }
 });
