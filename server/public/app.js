@@ -1279,21 +1279,15 @@ function bindEvents() {
               img.src = ev.target.result;
             });
 
-            // ── Call backend OCR endpoint (secure, server-side API key) ──
-            const ocrRes = await fetch("/api/ocr/scan", {
+            // ── Call backend OCR endpoint (auth token sent automatically) ──
+            const ocrJson = await requestJson("/api/ocr/scan", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 imageBase64: compressedBase64,
                 mimeType: "image/jpeg"
               })
             });
 
-            if (!ocrRes.ok) throw new Error(`OCR error: ${ocrRes.status}`);
-
-            const ocrJson = await ocrRes.json();
-            if (ocrJson.error) throw new Error(ocrJson.error);
-            
             const parsed = ocrJson.data || {};
 
             const name    = parsed.name || "";
