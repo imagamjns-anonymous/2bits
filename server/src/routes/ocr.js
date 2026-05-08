@@ -19,7 +19,15 @@ router.post("/scan", async (req, res, next) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model  = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-2.5-flash",
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+      ]
+    });
 
     const prompt = `You are an expert at reading Indian business cards in ANY orientation (rotated, tilted, upside-down, dark background, any font).
 
@@ -45,7 +53,8 @@ Example: {"name":"Deepak Khosla","phone":"9773922477","company":"KG Bearing Indi
     ]);
 
     const rawText  = result.response.text().trim();
-    const jsonText = rawText.replace(/^```json?\s*/i, "").replace(/```\s*$/i, "").trim();
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+    const jsonText = jsonMatch ? jsonMatch[0] : rawText;
 
     let parsed;
     try {
@@ -64,8 +73,8 @@ Example: {"name":"Deepak Khosla","phone":"9773922477","company":"KG Bearing Indi
 
   } catch (error) {
     const msg = error?.message || "Unknown error";
-    console.error("OCR Error:", msg);
-    return res.status(500).json({ error: `Scan failed: ${msg}` });
+    console.error("OCR Error Detail:", error);
+    return res.status(500).json({ error: `AI Error: ${msg}` });
   }
 });
 
