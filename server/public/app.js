@@ -956,10 +956,7 @@ async function handleSubmit(event) {
       };
     }
 
-    if (state.previewMode) {
-      throw new Error("Preview only");
-    }
-
+    // Always attempt to save to the real database first, even if initial check failed
     const endpoint = state.editingLeadId ? `/api/leads/${state.editingLeadId}` : "/api/leads";
 
     await requestJson(endpoint, {
