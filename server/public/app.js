@@ -34,41 +34,7 @@ const FOLLOWUP_TEMPLATE_STORAGE_KEY = "2bits-followup-template";
 const DEFAULT_FOLLOWUP_TEMPLATE =
   "Great meeting you at Expo 2026. I would love to continue the conversation and share the next steps.";
 
-const mockLeads = [
-  {
-    id: 101,
-    name: "Aarav Mehta",
-    phone: "+91 98765 12345",
-    company: "Orbit AI",
-    notes: "Asked for pricing deck and integration walkthrough.",
-    temperature: "hot",
-    source: "manual",
-    createdAt: new Date().toISOString(),
-    lastContactedAt: null,
-  },
-  {
-    id: 102,
-    name: "Riya Sharma",
-    phone: "+91 91234 56789",
-    company: "PixelNest",
-    notes: "Interested in reseller plan after Q2 launch.",
-    temperature: "warm",
-    source: "card",
-    createdAt: new Date().toISOString(),
-    lastContactedAt: new Date().toISOString(),
-  },
-  {
-    id: 103,
-    name: "Kabir Singh",
-    phone: "+91 99887 77665",
-    company: "Northstar Retail",
-    notes: "Needs a follow-up after internal team review.",
-    temperature: "cold",
-    source: "qr",
-    createdAt: new Date().toISOString(),
-    lastContactedAt: null,
-  },
-];
+const mockLeads = [];
 
 const elements = {
   brandLogo: document.getElementById("brandLogo"),
@@ -644,8 +610,10 @@ function setRenderedLeads(leads, summaryText) {
 function renderPreviewDashboard() {
   const filteredPreviewLeads = filterPreviewLeads(mockLeads);
   renderStats(computeStats(filteredPreviewLeads));
-  setRenderedLeads(filteredPreviewLeads, `Showing ${filteredPreviewLeads.length} preview leads`);
-  elements.syncText.textContent = "Showing sample 2 Bits data because the API or database is not available.";
+  setRenderedLeads(filteredPreviewLeads, `⚠️ OFFLINE MODE: Showing ${filteredPreviewLeads.length} unsaved leads`);
+  if (elements.syncText) {
+    elements.syncText.innerHTML = '<span style="color:var(--hot); font-weight:bold;">⚠️ Connection Lost.</span> Leads you save now will disappear if you refresh.';
+  }
 }
 
 function closeLeadMenu() {
@@ -1448,8 +1416,10 @@ async function boot() {
   try {
     await requestJson("/api");
   } catch (_error) {
+    console.error("API Connectivity Error:", _error);
     state.previewMode = true;
     renderPreviewDashboard();
+    showToast("Warning: Offline Mode. Leads won't be saved permanently.", "warning");
     return;
   }
 
