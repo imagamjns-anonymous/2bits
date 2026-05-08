@@ -1740,3 +1740,132 @@ body[data-theme="light"] .about-contact-icon {
   0% { transform: scale(0.8); opacity: 1; }
   100% { transform: scale(1.5); opacity: 0; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   Mobile Responsiveness & Viewport Optimization
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .pipeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+  }
+
+  .content-wrapper {
+    padding: 20px;
+  }
+
+  .topbar {
+    padding: 0 20px;
+    height: 70px;
+  }
+
+  .search-container {
+    display: none; /* Hide top search on mobile to save space */
+  }
+
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+    padding: 30px 20px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-description {
+    margin: 0 auto 24px auto;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pipeline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .section {
+    padding: 24px 20px;
+  }
+
+  .form-options {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Adjust Page Flip for Mobile */
+  .page-face {
+    padding: 16px;
+  }
+  
+  .about-hero h1 {
+    font-size: 36px;
+  }
+  
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 12px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .sidebar {
+    width: 100%; /* Full screen sidebar on very small devices */
+  }
+
+  .lead-card {
+    padding: 16px;
+  }
+
+  .lead-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  .lead-card__meta {
+    font-size: 12px;
+  }
+}
+
+/* Ensure images don't overflow on small screens */
+img, canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* Fix for the 3D flip container on mobile */
+#pageFlipContainer {
+  perspective: 2000px;
+}
+
+.page-face--back {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
