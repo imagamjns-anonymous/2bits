@@ -429,7 +429,7 @@ async function initChart() {
   if (!canvas) return;
 
   if (leadsChartInstance) {
-    leadsChartInstance.data.datasets.forEach(() => {});
+    leadsChartInstance.data.datasets.forEach(() => { });
     leadsChartInstance.destroy();
     leadsChartInstance = null;
   }
@@ -452,10 +452,10 @@ async function initChart() {
     const days = json.data || [];
 
     if (days.length > 0) {
-      labels    = days.map(d => d.label);
-      hotData   = days.map(d => Number(d.hot)   || 0);
-      warmData  = days.map(d => Number(d.warm)  || 0);
-      coldData  = days.map(d => Number(d.cold)  || 0);
+      labels = days.map(d => d.label);
+      hotData = days.map(d => Number(d.hot) || 0);
+      warmData = days.map(d => Number(d.warm) || 0);
+      coldData = days.map(d => Number(d.cold) || 0);
       totalData = days.map(d => Number(d.total) || 0);
     }
   } catch (_) {
@@ -575,7 +575,7 @@ function renderLane(target, leads, emptyMessage = "No matching leads in this sec
     ].join("\n");
     fragment.querySelector(".lead-card__badge").textContent = badge.label;
     fragment.querySelector(".lead-card__badge").dataset.tone = badge.tone;
-    
+
     // Add tilt effect class
     card.classList.add("tilt-card");
     card.dataset.tilt = "";
@@ -610,7 +610,7 @@ function renderLane(target, leads, emptyMessage = "No matching leads in this sec
 
     target.appendChild(fragment);
   });
-  
+
   if (window.VanillaTilt) {
     VanillaTilt.init(target.querySelectorAll(".tilt-card"));
   }
@@ -665,6 +665,8 @@ function toggleLeadMenu(menuWrap) {
   }
 }
 
+let html5QrcodeScanner = null;
+
 function setSource(source) {
   state.source = source;
   elements.cardUploadBlock.classList.toggle("context-panel--hidden", source !== "card");
@@ -673,6 +675,37 @@ function setSource(source) {
   [...elements.sourceSwitch.querySelectorAll("[data-source]")].forEach((button) => {
     button.classList.toggle("mode-chip--active", button.dataset.source === source);
   });
+
+  if (source === "qr") {
+    if (!html5QrcodeScanner) {
+      html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader",
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        /* verbose= */ false
+      );
+      html5QrcodeScanner.render((decodedText) => {
+        elements.qrPayload.value = decodedText;
+        const parsed = parseQrPayload(decodedText);
+        
+        if (parsed.name && !elements.leadForm.name.value.trim()) elements.leadForm.name.value = parsed.name;
+        if (parsed.phone && !elements.leadForm.phone.value.trim()) elements.leadForm.phone.value = parsed.phone;
+        if (parsed.company && !elements.leadForm.company.value.trim()) elements.leadForm.company.value = parsed.company;
+        if (parsed.notes && !elements.leadForm.notes.value.trim()) elements.leadForm.notes.value = parsed.notes;
+        
+        showToast("QR Code Scanned Successfully!", "success");
+        
+        if (html5QrcodeScanner) {
+          html5QrcodeScanner.clear();
+          html5QrcodeScanner = null;
+        }
+      }, () => {});
+    }
+  } else {
+    if (html5QrcodeScanner) {
+      html5QrcodeScanner.clear();
+      html5QrcodeScanner = null;
+    }
+  }
 }
 
 function setTemperature(temperature) {
@@ -691,10 +724,25 @@ function resetForm() {
   elements.saveButton.textContent = "Save lead";
   elements.saveButton.dataset.previousText = "Save lead";
   elements.cancelEditButton.classList.add("ghost-button--hidden");
+  
+  // Clear Card Upload state
+  elements.cardFile.value = "";
+  elements.cardPreview.src = "";
+  elements.cardPreview.style.display = "none";
+  elements.uploadIcon.textContent = "add_photo_alternate";
+  elements.uploadIcon.style.color = "var(--text-dim)";
+  elements.uploadText.textContent = "Upload visiting card image";
+  elements.clearCardButton.style.display = "none";
+  
+  // Clear QR state
+  elements.qrPayload.value = "";
+  if (html5QrcodeScanner) {
+    html5QrcodeScanner.clear();
+    html5QrcodeScanner = null;
+  }
+
   setSource("manual");
   setTemperature("hot");
-  elements.cardUploadBlock.classList.add("context-panel--hidden");
-  elements.qrInputBlock.classList.add("context-panel--hidden");
 }
 
 function startEdit(lead) {
@@ -768,11 +816,11 @@ async function refreshDashboard() {
   try {
     state.previewMode = false;
     updateApiStatus(true, "API online");
-    
+
     // Skeleton Loading state
     elements.statsGrid.innerHTML = Array(4).fill('<article class="stat-tile skeleton"><span>Label</span><strong>00</strong></article>').join("");
     document.querySelectorAll('.lead-list').forEach(l => l.innerHTML = '<div class="lead-card skeleton" style="height:150px;"></div>');
-    
+
     await Promise.all([fetchStats(), fetchLeads()]);
     elements.syncText.textContent = `Last synced ${new Date().toLocaleTimeString()}`;
   } catch (_error) {
@@ -1178,7 +1226,7 @@ function bindCommandPalette() {
       return;
     }
     const matches = state.renderedLeads.filter(l => l.name.toLowerCase().includes(term) || (l.company || "").toLowerCase().includes(term)).slice(0, 5);
-    
+
     if (matches.length) {
       cpLeadResultsGroup.style.display = "";
       cpLeadResults.innerHTML = matches.map(l => `
@@ -1200,26 +1248,26 @@ function bindRipples() {
   document.addEventListener("click", (e) => {
     const btn = e.target.closest(".btn, .nav-item, .chip");
     if (!btn) return;
-    
+
     const rect = btn.getBoundingClientRect();
     const ripple = document.createElement("div");
     const size = Math.max(rect.width, rect.height);
-    
+
     ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - rect.left - size/2}px`;
-    ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
     ripple.style.position = "absolute";
     ripple.style.background = "rgba(255,255,255,0.2)";
     ripple.style.borderRadius = "50%";
     ripple.style.pointerEvents = "none";
     ripple.style.transform = "scale(0)";
     ripple.style.animation = "ripple 0.6s linear";
-    
+
     if (getComputedStyle(btn).position === "static") {
       btn.style.position = "relative";
     }
     btn.style.overflow = "hidden";
-    
+
     btn.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
   });
@@ -1257,13 +1305,13 @@ function bindEvents() {
           elements.uploadText.style.display = "block";
           elements.uploadText.textContent = "Scanning card with AI...";
           elements.clearCardButton.style.display = "inline-block";
-          
+
           try {
             // ── Compress image before sending (handles huge phone photos) ──
             const compressedBase64 = await new Promise((resolve, reject) => {
               const img = new Image();
               img.onload = () => {
-                const MAX = 1200; // max dimension in px
+                const MAX = 1200; 
                 let { width, height } = img;
                 if (width > MAX || height > MAX) {
                   if (width > height) { height = Math.round(height * MAX / width); width = MAX; }
@@ -1273,9 +1321,9 @@ function bindEvents() {
                 canvas.width = width; canvas.height = height;
                 canvas.getContext("2d").drawImage(img, 0, 0, width, height);
                 const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-                resolve(dataUrl.split(",")[1]); // base64 only
+                resolve(dataUrl.split(",")[1]);
               };
-              img.onerror = reject;
+              img.onerror = () => reject(new Error("Could not process image file."));
               img.src = ev.target.result;
             });
 
@@ -1288,19 +1336,20 @@ function bindEvents() {
               })
             });
 
+            console.log("OCR Result:", ocrJson);
             const parsed = ocrJson.data || {};
 
-            const name    = parsed.name || "";
-            const phone   = parsed.phone || "";
+            const name = parsed.name || "";
+            const phone = parsed.phone || "";
             const company = parsed.company || "";
 
-            const nameEl  = document.getElementById("name");
+            const nameEl = document.getElementById("name");
             const phoneEl = document.getElementById("phone");
-            const compEl  = document.getElementById("company");
+            const compEl = document.getElementById("company");
 
-            if (name    && !nameEl.value)  nameEl.value  = name;
-            if (company && !compEl.value)  compEl.value  = company;
-            if (phone   && !phoneEl.value) phoneEl.value = phone;
+            if (name && !nameEl.value) nameEl.value = name;
+            if (company && !compEl.value) compEl.value = company;
+            if (phone && !phoneEl.value) phoneEl.value = phone;
 
             const filled = [name, phone, company].filter(Boolean).length;
             elements.uploadIcon.textContent = "check_circle";
@@ -1440,7 +1489,7 @@ function flipToMain(event) {
   if (!container) return;
 
   container.classList.remove('is-flipped-done');
-  
+
   // Force a tiny delay so the browser registers the display change before animating
   requestAnimationFrame(() => {
     container.classList.remove('is-flipped');
@@ -1463,7 +1512,7 @@ function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
   if (!sidebar || !overlay) return;
-  
+
   sidebar.classList.toggle('is-open');
   overlay.classList.toggle('is-active');
 }
@@ -1472,7 +1521,7 @@ function closeSidebar() {
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
   if (!sidebar || !overlay) return;
-  
+
   sidebar.classList.remove('is-open');
   overlay.classList.remove('is-active');
 }
