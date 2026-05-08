@@ -52,6 +52,9 @@ const elements = {
   cardUploadBlock: document.getElementById("cardUploadBlock"),
   qrInputBlock: document.getElementById("qrInputBlock"),
   cardFile: document.getElementById("cardFile"),
+  cameraFile: document.getElementById("cameraFile"),
+  cameraBtn: document.getElementById("cameraBtn"),
+  uploadBtn: document.getElementById("uploadBtn"),
   cardPreview: document.getElementById("cardPreview"),
   uploadIcon: document.getElementById("uploadIcon"),
   uploadText: document.getElementById("uploadText"),
@@ -695,6 +698,7 @@ function resetForm() {
   
   // Clear Card Upload state
   elements.cardFile.value = "";
+  elements.cameraFile.value = "";
   elements.cardPreview.src = "";
   elements.cardPreview.style.display = "none";
   elements.uploadIcon.textContent = "add_photo_alternate";
@@ -741,12 +745,13 @@ function flashTarget(selector) {
 }
 
 async function uploadCardImage() {
-  if (!elements.cardFile.files.length) {
+  const file = elements.cardFile.files[0] || elements.cameraFile.files[0];
+  if (!file) {
     return "";
   }
 
   const formData = new FormData();
-  formData.append("card", elements.cardFile.files[0]);
+  formData.append("card", file);
 
   const response = await fetch("/api/uploads/card", {
     method: "POST",
@@ -1262,91 +1267,98 @@ function bindEvents() {
   });
   elements.leadForm.addEventListener("submit", handleSubmit);
 
-  if (elements.cardFile) {
-    elements.cardFile.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = async (ev) => {
-          elements.cardPreview.src = ev.target.result;
-          elements.cardPreview.style.display = "block";
-          elements.uploadIcon.style.display = "inline-block";
-          elements.uploadIcon.textContent = "document_scanner";
-          elements.uploadText.style.display = "block";
-          elements.uploadText.textContent = "Scanning card with AI...";
-          elements.clearCardButton.style.display = "inline-block";
+  async function processCardFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      elements.cardPreview.src = ev.target.result;
+      elements.cardPreview.style.display = "block";
+      elements.uploadIcon.style.display = "inline-block";
+      elements.uploadIcon.textContent = "document_scanner";
+      elements.uploadText.style.display = "block";
+      elements.uploadText.textContent = "Scanning card with AI...";
+      elements.clearCardButton.style.display = "inline-block";
 
-          try {
-            // ── Compress image before sending (handles huge phone photos) ──
-            const compressedBase64 = await new Promise((resolve, reject) => {
-              const img = new Image();
-              img.onload = () => {
-                const MAX = 1200; 
-                let { width, height } = img;
-                if (width > MAX || height > MAX) {
-                  if (width > height) { height = Math.round(height * MAX / width); width = MAX; }
-                  else { width = Math.round(width * MAX / height); height = MAX; }
-                }
-                const canvas = document.createElement("canvas");
-                canvas.width = width; canvas.height = height;
-                canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-                const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-                resolve(dataUrl.split(",")[1]);
-              };
-              img.onerror = () => reject(new Error("Could not process image file."));
-              img.src = ev.target.result;
-            });
+      try {
+        const compressedBase64 = await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            const MAX = 1200;
+            let { width, height } = img;
+            if (width > MAX || height > MAX) {
+              if (width > height) { height = Math.round(height * MAX / width); width = MAX; }
+              else { width = Math.round(width * MAX / height); height = MAX; }
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width; canvas.height = height;
+            canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+            resolve(dataUrl.split(",")[1]);
+          };
+          img.onerror = () => reject(new Error("Could not process image file."));
+          img.src = ev.target.result;
+        });
 
-            // ── Call backend OCR endpoint (auth token sent automatically) ──
-            const ocrJson = await requestJson("/api/ocr/scan", {
-              method: "POST",
-              body: JSON.stringify({
-                imageBase64: compressedBase64,
-                mimeType: "image/jpeg"
-              })
-            });
+        const ocrJson = await requestJson("/api/ocr/scan", {
+          method: "POST",
+          body: JSON.stringify({
+            imageBase64: compressedBase64,
+            mimeType: "image/jpeg"
+          })
+        });
 
-            console.log("OCR Result:", ocrJson);
-            const parsed = ocrJson.data || {};
+        console.log("OCR Result:", ocrJson);
+        const parsed = ocrJson.data || {};
+        const name = parsed.name || "";
+        const phone = parsed.phone || "";
+        const company = parsed.company || "";
 
-            const name = parsed.name || "";
-            const phone = parsed.phone || "";
-            const company = parsed.company || "";
+        const nameEl = document.getElementById("name");
+        const phoneEl = document.getElementById("phone");
+        const compEl = document.getElementById("company");
 
-            const nameEl = document.getElementById("name");
-            const phoneEl = document.getElementById("phone");
-            const compEl = document.getElementById("company");
+        if (name && !nameEl.value) nameEl.value = name;
+        if (company && !compEl.value) compEl.value = company;
+        if (phone && !phoneEl.value) phoneEl.value = phone;
 
-            if (name && !nameEl.value) nameEl.value = name;
-            if (company && !compEl.value) compEl.value = company;
-            if (phone && !phoneEl.value) phoneEl.value = phone;
-
-            const filled = [name, phone, company].filter(Boolean).length;
-            elements.uploadIcon.textContent = "check_circle";
-            elements.uploadIcon.style.color = "var(--cold)";
-            elements.uploadText.textContent = filled > 0
-              ? `✅ ${filled} field${filled > 1 ? "s" : ""} auto-filled!`
-              : "⚠️ Scanned — please fill fields manually.";
-            showToast(
-              filled > 0 ? "Card scanned! Please verify the fields." : "Scan done — couldn't detect all fields.",
-              filled > 0 ? "success" : "warning"
-            );
-
-          } catch (error) {
-            console.error("OCR Error:", error);
-            elements.uploadIcon.textContent = "error";
-            elements.uploadText.textContent = `❌ Error: ${error.message}`;
-            showToast(`Scan error: ${error.message}`, "warning");
-          }
-        };
-        reader.readAsDataURL(file);
+        const filled = [name, phone, company].filter(Boolean).length;
+        elements.uploadIcon.textContent = "check_circle";
+        elements.uploadIcon.style.color = "var(--cold)";
+        elements.uploadText.textContent = filled > 0
+          ? `✅ ${filled} field${filled > 1 ? "s" : ""} auto-filled!`
+          : "⚠️ Scanned — please fill fields manually.";
+        showToast(
+          filled > 0 ? "Card scanned! Please verify the fields." : "Scan done — couldn't detect all fields.",
+          filled > 0 ? "success" : "warning"
+        );
+      } catch (error) {
+        console.error("OCR Error:", error);
+        elements.uploadIcon.textContent = "error";
+        elements.uploadText.textContent = `❌ Error: ${error.message}`;
+        showToast(`Scan error: ${error.message}`, "warning");
       }
-    });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if (elements.cameraBtn) {
+    elements.cameraBtn.addEventListener("click", () => elements.cameraFile.click());
+  }
+  if (elements.uploadBtn) {
+    elements.uploadBtn.addEventListener("click", () => elements.cardFile.click());
+  }
+
+  if (elements.cardFile) {
+    elements.cardFile.addEventListener("change", (e) => processCardFile(e.target.files[0]));
+  }
+  if (elements.cameraFile) {
+    elements.cameraFile.addEventListener("change", (e) => processCardFile(e.target.files[0]));
   }
 
   if (elements.clearCardButton) {
     elements.clearCardButton.addEventListener("click", () => {
       elements.cardFile.value = "";
+      elements.cameraFile.value = "";
       elements.cardPreview.src = "";
       elements.cardPreview.style.display = "none";
       elements.uploadIcon.style.display = "inline-block";
