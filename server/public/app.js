@@ -941,9 +941,14 @@ async function handleSubmit(event) {
     };
 
     if (state.source === "card") {
-      const cardImageUrl = await uploadCardImage();
-      if (cardImageUrl) {
-        payload.cardImageUrl = cardImageUrl;
+      try {
+        const cardImageUrl = await uploadCardImage();
+        if (cardImageUrl) {
+          payload.cardImageUrl = cardImageUrl;
+        }
+      } catch (uploadError) {
+        console.error("Image upload failed, but saving lead anyway:", uploadError);
+        showToast("Lead saved, but card image failed to upload.", "warning");
       }
     }
 
