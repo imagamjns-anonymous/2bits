@@ -1759,12 +1759,25 @@ body[data-theme="light"] .about-contact-icon {
 
   .content-wrapper {
     padding: 20px;
+    margin-top: 64px; /* Offset for fixed topbar */
+    padding: 16px;
   }
 
   .topbar {
     padding: 0 16px;
     height: 64px;
-    justify-content: flex-end; /* Push actions to right since toggle is on left */
+    justify-content: flex-end;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    z-index: 1100;
   }
 
   .header-actions {
@@ -1824,6 +1837,7 @@ body[data-theme="light"] .about-contact-icon {
     box-shadow: none;
     width: 48px;
     height: 48px;
+    z-index: 1200;
   }
 
   .main-content {
