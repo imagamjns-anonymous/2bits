@@ -388,7 +388,7 @@ function renderStats(stats) {
     elements.statsGrid.appendChild(tile);
   });
 
-  initChart();
+  initChart().catch(err => console.error("Chart failed to load:", err));
 }
 
 let leadsChartInstance = null;
@@ -416,8 +416,7 @@ async function initChart() {
   let totalData = [];
 
   try {
-    const res = await apiFetch("/api/leads/stats/daily");
-    const json = await res.json();
+    const json = await requestJson("/api/leads/stats/daily");
     const days = json.data || [];
 
     if (days.length > 0) {
