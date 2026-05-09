@@ -1762,12 +1762,30 @@ body[data-theme="light"] .about-contact-icon {
   }
 
   .topbar {
-    padding: 0 20px;
-    height: 70px;
+    padding: 0 16px;
+    height: 64px;
+    justify-content: flex-end; /* Push actions to right since toggle is on left */
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-actions .btn span {
+    margin-right: 0;
+  }
+
+  .header-actions .btn {
+    padding: 8px;
+    font-size: 0; /* Hide text */
+  }
+
+  .header-actions .btn .material-symbols-outlined {
+    font-size: 24px;
   }
 
   .search-container {
-    display: none; /* Hide top search on mobile to save space */
+    display: none; 
   }
 
   .hero-section {
@@ -1796,6 +1814,20 @@ body[data-theme="light"] .about-contact-icon {
   .form-row {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .sidebar-toggle {
+    top: 8px;
+    left: 8px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    width: 48px;
+    height: 48px;
+  }
+
+  .main-content {
+    padding-top: 0;
   }
 
   .section {
