@@ -1269,21 +1269,23 @@ function bindEvents() {
 
   async function processCardFile(file) {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      elements.cardPreview.src = ev.target.result;
-      elements.cardPreview.style.display = "block";
-      elements.uploadIcon.style.display = "inline-block";
-      elements.uploadIcon.textContent = "document_scanner";
-      elements.uploadText.style.display = "block";
-      elements.uploadText.textContent = "Scanning card with AI...";
-      elements.clearCardButton.style.display = "inline-block";
+    
+    // Use Object URL instead of DataURL to save memory
+    const objectUrl = URL.createObjectURL(file);
+    elements.cardPreview.src = objectUrl;
+    elements.cardPreview.style.display = "block";
+    elements.uploadIcon.style.display = "inline-block";
+    elements.uploadIcon.textContent = "document_scanner";
+    elements.uploadText.style.display = "block";
+    elements.uploadText.textContent = "Scanning card with AI...";
+    elements.clearCardButton.style.display = "inline-block";
 
-      try {
-        const compressedBase64 = await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => {
-            const MAX = 1200;
+    try {
+      const compressedBase64 = await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const MAX = 1000; // Slightly smaller for better mobile stability
             let { width, height } = img;
             if (width > MAX || height > MAX) {
               if (width > height) { height = Math.round(height * MAX / width); width = MAX; }
@@ -1291,13 +1293,27 @@ function bindEvents() {
             }
             const canvas = document.createElement("canvas");
             canvas.width = width; canvas.height = height;
-            canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // jpeg compression significantly reduces data size
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.7); 
             resolve(dataUrl.split(",")[1]);
-          };
-          img.onerror = () => reject(new Error("Could not process image file."));
-          img.src = ev.target.result;
-        });
+            
+            // Cleanup canvas and image
+            canvas.width = 0;
+            canvas.height = 0;
+          } catch (e) {
+            reject(new Error("Memory limit reached. Please try a smaller photo."));
+          }
+        };
+        img.onerror = () => reject(new Error("Could not process image file."));
+        img.src = objectUrl;
+      });
+
+      // Release the object URL once the image is loaded into the Image object/preview
+      // We keep it a bit longer just to be safe, but we MUST release it.
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
 
         const ocrJson = await requestJson("/api/ocr/scan", {
           method: "POST",
