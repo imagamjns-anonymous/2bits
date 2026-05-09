@@ -775,11 +775,7 @@ async function fetchStats() {
 }
 
 async function fetchLeads() {
-  const query = buildQuery({
-    ...state.filters,
-    page: 1,
-    pageSize: 60,
-  });
+  const query = buildQuery(state.filters);
   const payload = await requestJson(`/api/leads${query}`);
   setRenderedLeads(payload.data, `Showing ${payload.data.length} active leads`);
 }
@@ -1352,8 +1348,6 @@ function bindEvents() {
         elements.uploadText.textContent = `❌ Error: ${error.message}`;
         showToast(`Scan error: ${error.message}`, "warning");
       }
-    };
-    reader.readAsDataURL(file);
   }
 
   if (elements.cameraBtn) {
@@ -1441,16 +1435,6 @@ async function boot() {
   initializeFollowupTemplate();
   bindEvents();
   resetForm();
-
-  try {
-    await requestJson("/api");
-  } catch (_error) {
-    console.error("API Connectivity Error:", _error);
-    state.previewMode = true;
-    renderPreviewDashboard();
-    showToast("Warning: Offline Mode. Leads won't be saved permanently.", "warning");
-    return;
-  }
 
   await refreshDashboard();
 }
