@@ -579,7 +579,7 @@ function renderLane(target, leads, emptyMessage = "No matching leads in this sec
     target.appendChild(fragment);
   });
 
-  if (window.VanillaTilt) {
+  if (window.VanillaTilt && window.innerWidth > 768) {
     VanillaTilt.init(target.querySelectorAll(".tilt-card"));
   }
 }
