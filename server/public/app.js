@@ -687,8 +687,9 @@ function setTemperature(temperature) {
 }
 
 function resetForm() {
+  const currentExpoName = elements.expoName ? elements.expoName.value : "Expo 2026";
   elements.leadForm.reset();
-  elements.expoName.value = "Expo 2026";
+  if (elements.expoName) elements.expoName.value = currentExpoName;
   state.editingLeadId = null;
   elements.formModePill.textContent = "Create mode";
   elements.saveButton.textContent = "Save lead";
