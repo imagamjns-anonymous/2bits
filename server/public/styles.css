@@ -796,6 +796,10 @@ input:focus, textarea:focus {
 
 .lead-card__menu-wrap {
   position: relative;
+  z-index: 10;
+}
+.lead-card:has(.lead-card__menu-wrap--open) {
+  z-index: 20;
 }
 .lead-card__menu-button {
   background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;
