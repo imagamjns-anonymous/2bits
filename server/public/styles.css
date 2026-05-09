@@ -2078,6 +2078,21 @@ body[data-theme="light"] .about-contact-icon {
     --radius-xl: 20px;
   }
 
+  /* Mobile Performance Optimizations */
+  .orb-1, .orb-2, .orb-3 {
+    display: none !important;
+    animation: none !important;
+  }
+  
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .lead-card {
+    transform: none !important;
+  }
+
   .content-wrapper {
     padding: 20px;
     margin-top: 64px;
