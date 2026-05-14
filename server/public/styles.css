@@ -80,6 +80,29 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Custom Glass Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(157, 78, 221, 0.3);
+  border-radius: 10px;
+  border: 2px solid var(--bg-base);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(157, 78, 221, 0.6);
+  border: 2px solid var(--bg-base);
+  background-clip: padding-box;
+}
+
 body {
   background-color: var(--bg-base);
   color: var(--text-main);
